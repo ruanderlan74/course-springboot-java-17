@@ -1,11 +1,17 @@
 package com.educandoweb.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -19,6 +25,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
+@Table(name = "tb_user")
 public class User implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -29,5 +36,19 @@ public class User implements Serializable
 	private String name;
 	private String emailString;
 	private String phone;
-	private String password;	
+	private String password;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "client")
+	private List<Order> oders = new ArrayList<>();
+
+	public User(Long id, String name, String emailString, String phone, String password) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.emailString = emailString;
+		this.phone = phone;
+		this.password = password;
+	}
+	
 }
